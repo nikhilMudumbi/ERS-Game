@@ -9,7 +9,7 @@ public class GameServer {
     private int numPlayers;
     private ServerSideConnection[] players;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
-    private int maxPlayers = 1;
+    private int maxPlayers = 2;
 
     public GameServer() {
         System.out.println("-----Game Server-----");
