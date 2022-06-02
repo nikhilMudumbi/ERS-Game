@@ -1,5 +1,3 @@
-package Classes;
-
 public class Card {
     private int number;
     // 1-13, ace-king

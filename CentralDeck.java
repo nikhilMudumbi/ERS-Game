@@ -1,5 +1,3 @@
-package Classes;
-
 public class CentralDeck extends Deck {
     
     Card bottomCard = null;

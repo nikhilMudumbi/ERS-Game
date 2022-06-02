@@ -1,5 +1,3 @@
-package Classes;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -20,7 +18,6 @@ public class Player {
             public void run() {
                 while(true) {
                     csc.receiveMessage();
-                    System.out.println("here8");
                 }
             }
         });
@@ -74,7 +71,7 @@ public class Player {
         System.out.println("playerID: " + p.playerID);
         p.startReceivingMessages();
         Scanner reader = new Scanner(System.in);
-        if (reader.hasNextLine()) {
+        while (true) {
             String text = reader.nextLine();
             if (text.equals("slap")) {
                 p.csc.sendCommand(1);

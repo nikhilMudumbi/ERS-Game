@@ -1,5 +1,3 @@
-package Classes;
-
 import java.io.*;
 import java.net.*;
 import java.time.*;
@@ -9,8 +7,7 @@ public class GameServer {
 
     private ServerSocket ss;
     private int numPlayers;
-    private ServerSideConnection player1;
-    private ServerSideConnection player2;
+    private ServerSideConnection[] players;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
     private int maxPlayers = 1;
 
@@ -33,12 +30,7 @@ public class GameServer {
                 numPlayers++;
                 System.out.println("Player #" + numPlayers + " has connected.");
                 ServerSideConnection ssc = new ServerSideConnection(s, numPlayers);
-                if (numPlayers == 1) {
-                    player1 = ssc;
-                }
-                else {
-                    player2 = ssc;
-                }
+                players[numPlayers-1] = ssc;
                 Thread t = new Thread(ssc);
                 t.start();
             }
@@ -133,23 +125,29 @@ public class GameServer {
     }
 
     public void printMessage(String message) {
-        player1.sendMessage(message);
-        //player2.sendMessage(message);
+        for (ServerSideConnection player : players) {
+            player.sendMessage(message);
+        }
     }
 
     public void dealCards() {}
 
     public static void main(String[] args) throws InterruptedException {
         GameServer gs = new GameServer();
+        gs.players = new ServerSideConnection[gs.maxPlayers];
         gs.acceptConnections();
         gs.dealCards();
         CentralDeck deck = new CentralDeck();
         
-        Thread.sleep(5000);
-        if (!gs.slaps.isEmpty()) {
-            Collections.sort(gs.slaps);
-            gs.printMessage("Player #" + gs.slaps.get(0).player + " slapped first!");
-            gs.slaps.clear();
+        while (true) {
+            gs.printMessage("slap now!!!");
+            Thread.sleep(2000);
+            if (!gs.slaps.isEmpty()) {
+                Collections.sort(gs.slaps);
+                gs.printMessage("Player #" + gs.slaps.get(0).player + " slapped first!");
+                gs.slaps.clear();
+                Thread.sleep(2000);
+            }
         }
     }
 }
