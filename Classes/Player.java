@@ -14,6 +14,19 @@ public class Player {
         csc = new ClientSideConnection();
     }
 
+
+    public void startReceivingMessages() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while(true) {
+                    csc.receiveMessage();
+                    System.out.println("here8");
+                }
+            }
+        });
+        t.start();
+    }
+
     private class ClientSideConnection {
         private Socket socket;
         private DataInputStream dataIn;
@@ -22,7 +35,7 @@ public class Player {
         public ClientSideConnection() {
             System.out.println("---Client---");
             try {
-                socket = new Socket("10.62.1.197", 51734);
+                socket = new Socket("10.31.1.24", 51734);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
                 playerID = dataIn.readInt();
@@ -42,12 +55,24 @@ public class Player {
                 System.out.println("IOException from sendButtonNum() CSC");
             }
         }
+
+        public void receiveMessage() {
+            String text;
+            try {
+                text = dataIn.readUTF();
+                System.out.println(text);
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from receiveMessage() CSC");
+            }
+        }
     }
 
     public static void main(String[] args) {
         Player p = new Player();
         p.connectToServer();
         System.out.println("playerID: " + p.playerID);
+        p.startReceivingMessages();
         Scanner reader = new Scanner(System.in);
         if (reader.hasNextLine()) {
             String text = reader.nextLine();

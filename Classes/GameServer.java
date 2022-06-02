@@ -12,6 +12,7 @@ public class GameServer {
     private ServerSideConnection player1;
     private ServerSideConnection player2;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
+    private int maxPlayers = 1;
 
     public GameServer() {
         System.out.println("-----Game Server-----");
@@ -27,7 +28,6 @@ public class GameServer {
     public void acceptConnections() {
         try {
             System.out.println("Waiting for connections...");
-            int maxPlayers = 2;
             while (numPlayers < maxPlayers) {
                 Socket s = ss.accept();
                 numPlayers++;
@@ -88,6 +88,20 @@ public class GameServer {
                 System.out.println("IOException from run() SSC");
             }
         }
+
+        public void sendMessage(String text) {
+            try {
+                dataOut.writeUTF(text);
+                dataOut.flush();
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from sendMessage() ssc");
+            }
+        }
+
+        public void sendInitialCards(ArrayList<Card> list) {
+            
+        }
     }
 
     private class SlapAction implements Comparable<SlapAction> {
@@ -118,13 +132,23 @@ public class GameServer {
         slaps.clear();
     }
 
+    public void printMessage(String message) {
+        player1.sendMessage(message);
+        //player2.sendMessage(message);
+    }
+
+    public void dealCards() {}
+
     public static void main(String[] args) throws InterruptedException {
         GameServer gs = new GameServer();
         gs.acceptConnections();
-        Thread.sleep(15000);
+        gs.dealCards();
+        CentralDeck deck = new CentralDeck();
+        
+        Thread.sleep(5000);
         if (!gs.slaps.isEmpty()) {
             Collections.sort(gs.slaps);
-            System.out.println("Player #" + gs.slaps.get(0).player + " slapped first!");
+            gs.printMessage("Player #" + gs.slaps.get(0).player + " slapped first!");
             gs.slaps.clear();
         }
     }

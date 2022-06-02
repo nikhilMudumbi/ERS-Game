@@ -15,19 +15,19 @@ public class Card {
 
     }
     
-    private String getColor() {
+    public String getColor() {
         return color;
     }
 
-    private String getSuit() {
+    public String getSuit() {
         return suit;
     }
 
-    private int getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    private boolean isFaceCard() {
+    public boolean isFaceCard() {
         return number >= 11;
     }
 }
