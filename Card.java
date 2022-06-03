@@ -5,11 +5,17 @@ public class Card {
     // spades, clubs, hearts, diamonds
     private String color;
     // red, black
+    private String[] faceList = {"jack", "queen", "king", "ace"};
 
-    public Card(int number, String suit, String color) {
+    public Card(int number, String suit) {
         this.number = number;
         this.suit = suit;
-        this.color = color;
+        if (suit.equals("clubs") || suit.equals("spades")) {
+            this.color = "black";
+        }
+        else {
+            this.color = "red";
+        }
 
     }
     
@@ -27,5 +33,27 @@ public class Card {
 
     public boolean isFaceCard() {
         return number >= 11;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        if (number == 1) {
+            str += "ace";
+        }
+        else if (number > 10) {
+            str += faceList[number - 11];
+        }
+        else {
+            str += number;
+        }
+        str += " of " + suit;
+        if (suit.equals("clubs") || suit.equals("spades")) {
+            str += ", black";
+        }
+        else {
+            str += ", red";
+        }
+        return str;
     }
 }

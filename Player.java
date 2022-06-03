@@ -32,7 +32,7 @@ public class Player {
         public ClientSideConnection() {
             System.out.println("---Client---");
             try {
-                socket = new Socket("10.31.34.22", 51734);
+                socket = new Socket("10.62.1.197", 51734);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
                 playerID = dataIn.readInt();
@@ -73,7 +73,7 @@ public class Player {
         Scanner reader = new Scanner(System.in);
         while (true) {
             String text = reader.nextLine();
-            if (text.equals("slap")) {
+            if (text.equals("s")) {
                 p.csc.sendCommand(1);
             }
         }

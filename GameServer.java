@@ -10,6 +10,8 @@ public class GameServer {
     private ServerSideConnection[] players;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
     private int maxPlayers = 2;
+    private ArrayList<Card> fullDeck = new ArrayList<>();
+    private CentralDeck centralDeck = new CentralDeck();
 
     public GameServer() {
         System.out.println("-----Game Server-----");
@@ -115,6 +117,14 @@ public class GameServer {
             }
             return -1;
         }
+
+        public LocalTime getTime() {
+            return time;
+        }
+
+        public int getPlayer() {
+            return player;
+        }
         
     }
 
@@ -132,14 +142,77 @@ public class GameServer {
 
     public void dealCards() {}
 
+    public void initializeDeck() {
+        String[] suitList = {"clubs", "spades", "diamonds", "hearts"};
+        for (int i = 1; i <= 13; i++) {
+            for (String suit : suitList) {
+                fullDeck.add(new Card(i,suit));
+            }
+        }
+        Collections.shuffle(fullDeck);
+    }
+
+    public Card playCard() {
+        Card card = fullDeck.get(fullDeck.size()-1);
+        fullDeck.remove(fullDeck.size()-1);
+        centralDeck.addTop(card);
+        return card;
+    }
+
     public static void main(String[] args) throws InterruptedException {
+        Scanner reader = new Scanner(System.in);
         GameServer gs = new GameServer();
         gs.players = new ServerSideConnection[gs.maxPlayers];
         gs.acceptConnections();
-        gs.dealCards();
-        CentralDeck deck = new CentralDeck();
+        gs.initializeDeck();
+        // gs.dealCards();
+        System.out.print("Enter 'start' to begin the game: ");
+        String line = reader.nextLine();
+        for (int i = 0; i < 52; i++) {
+            gs.printMessage("Card just played: " + gs.playCard());
+            Thread.sleep(3000);
+            if (gs.centralDeck.slappable()) {
+                gs.printMessage("This was slappable.");
+                if (!gs.slaps.isEmpty()) {
+                    Collections.sort(gs.slaps);
+                    gs.printMessage("Player #" + gs.slaps.get(0).player + " slapped first!");
+                    gs.slaps.clear();
+                    gs.printMessage("Resetting the deck.");
+                    gs.centralDeck = new CentralDeck();
+                }
+                else {
+                    gs.printMessage("No one slapped :(");
+                }
+            }
+            else {
+                gs.printMessage("This was not slappable.");
+                if (gs.slaps.isEmpty()) {
+                    gs.printMessage("No one slapped, nice!");
+                }
+                else {
+                    Collections.sort(gs.slaps);
+                    String message = "Players ";
+                    if (gs.slaps.size() == 1) {
+                        gs.printMessage("Player " + gs.slaps.get(0).getPlayer() + " slapped ;(");
+                    }
+                    else {
+                        for (SlapAction slapAction : gs.slaps) {
+                            message += slapAction.getPlayer() + ", ";
+                        }
+                        message += "all slapped ;(";
+                        gs.printMessage(message);
+                    }
+                    gs.slaps.clear();
+                }
+            }
+            System.out.print("Enter 'next' to continue to the next card, or 'end' to end the game: ");
+            line = reader.nextLine();
+            if (line.equals("end")) {
+                break;
+            }
+        }
         
-        while (true) {
+        /* while (true) {
             gs.printMessage("slap now!!!");
             Thread.sleep(2000);
             if (!gs.slaps.isEmpty()) {
@@ -148,6 +221,6 @@ public class GameServer {
                 gs.slaps.clear();
                 Thread.sleep(2000);
             }
-        }
+        } */
     }
 }

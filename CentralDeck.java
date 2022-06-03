@@ -19,13 +19,13 @@ public class CentralDeck extends Deck {
         topCard = cards.get(length-1);
         if (length > 1) {
             secondCard = cards.get(length-2);
+            secondNum = secondCard.getNumber();
         }
         if (length > 2) {
             thirdCard = cards.get(length-3);
+            thirdNum = thirdCard.getNumber();
         }
         topNum = topCard.getNumber();
-        secondNum = secondCard.getNumber();
-        thirdNum = thirdCard.getNumber();
         bottomNum = bottomCard.getNumber();
     }
 
@@ -80,14 +80,14 @@ public class CentralDeck extends Deck {
     }
 
     private boolean topBottomSlap() {
-        return topNum == bottomNum;
+        return topNum == bottomNum && cards.size() > 1;
     }
 
     private boolean staircaseSlap() {
-        if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum) {
+        if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum && topNum <= 10) {
             return true;
         }
-        if (topNum == secondNum - 1 && secondNum == thirdNum - 1) {
+        if (topNum == secondNum - 1 && secondNum == thirdNum - 1 && thirdNum <= 10) {
             return true;
         }
         return false;
