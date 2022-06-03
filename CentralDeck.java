@@ -107,8 +107,8 @@ public class CentralDeck extends Deck {
         }
 
         if (topNum == 12) {
-            //next 2 turns .isFaceCard() - get cards
-            //false
+            //next 2 turns .isFaceCard()
+            //if false, get cards
         }
 
         if (topNum == 13) {
