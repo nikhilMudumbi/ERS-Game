@@ -39,6 +39,8 @@ public class CentralDeck extends Deck {
         length = 0;
     }
 
+    //valid slap
+
     public boolean slappable() {
         if (doubleSlap()) return true;
         if (sandwichSlap()) return true;
@@ -50,6 +52,7 @@ public class CentralDeck extends Deck {
         return false;
     }
 
+    //combinations
 
     private boolean doubleSlap() {
         return topNum == secondNum;
@@ -57,6 +60,14 @@ public class CentralDeck extends Deck {
 
     private boolean sandwichSlap() {
         return topNum == thirdNum;
+    }
+
+    private boolean topBottomSlap() {
+        return topNum == bottomNum && cards.size() > 1;
+    }
+
+    private boolean red10Slap() {
+        return topNum == 10 && topCard.getColor().equals("red");
     }
 
     private boolean marriageSlap() {
@@ -79,10 +90,6 @@ public class CentralDeck extends Deck {
         return false;
     }
 
-    private boolean topBottomSlap() {
-        return topNum == bottomNum && cards.size() > 1;
-    }
-
     private boolean staircaseSlap() {
         if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum && topNum <= 10) {
             return true;
@@ -93,7 +100,25 @@ public class CentralDeck extends Deck {
         return false;
     }
 
-    private boolean red10Slap() {
-        return topNum == 10 && topCard.getColor().equals("red");
+    //face cards
+    public void faceCards () {
+        if (topNum == 11) {
+            //nextTurn.topNum
+        }
+
+        if (topNum == 12) {
+            //next 2 turns .isFaceCard() - get cards
+            //false
+        }
+
+        if (topNum == 13) {
+            //next 3 turns
+        }
+
+        if (topNum == 14) {
+            //next 4 cards placed
+        }
     }
+    
+
 }
