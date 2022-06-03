@@ -1,5 +1,3 @@
-package Classes;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -75,7 +73,7 @@ public class Player {
         Scanner reader = new Scanner(System.in);
         while (true) {
             String text = reader.nextLine();
-            if (text.equals("slap")) {
+            if (text.equals("s")) {
                 p.csc.sendCommand(1);
             }
         }

@@ -1,5 +1,3 @@
-package Classes;
-
 public class PlayerDeck extends Deck {
     
     public void removeTop() {

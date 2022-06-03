@@ -1,5 +1,3 @@
-package Game;
-
 public class progressGame { 
 
     //lastCardPlaced = arraylist.get(count);
