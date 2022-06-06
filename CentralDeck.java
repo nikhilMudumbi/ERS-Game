@@ -104,19 +104,23 @@ public class CentralDeck extends Deck {
     public void faceCards () {
         if (topNum == 11) {
             //nextTurn.topNum
+            //next person/card, if isFaceCard is false, get cards
+            
         }
 
         if (topNum == 12) {
             //next 2 turns .isFaceCard()
-            //if false, get cards
+
         }
 
         if (topNum == 13) {
             //next 3 turns
+
         }
 
         if (topNum == 14) {
             //next 4 cards placed
+
         }
     }
     
