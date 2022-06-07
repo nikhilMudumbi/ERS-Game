@@ -7,9 +7,9 @@ public class GameServer {
 
     private ServerSocket ss;
     private int numPlayers;
+    private int maxPlayers = 2;
     private ServerSideConnection[] players;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
-    private int maxPlayers = 2;
     private ArrayList<Card> fullDeck = new ArrayList<>();
     private CentralDeck centralDeck = new CentralDeck();
 
@@ -93,8 +93,25 @@ public class GameServer {
             }
         }
 
-        public void sendInitialCards(ArrayList<Card> list) {
-            
+        public void sendInt(int num) {
+            try {
+                dataOut.writeInt(num);
+                dataOut.flush();
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from sendInt() ssc");
+            }
+        }
+
+        public void sendCard(Card card) {
+            try {
+                dataOut.writeInt(card.getNumber());
+                dataOut.writeUTF(card.getSuit());
+                dataOut.flush();
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from sendCard() ssc");
+            }
         }
     }
 
@@ -140,7 +157,21 @@ public class GameServer {
         }
     }
 
-    public void dealCards() {}
+    public void dealCards() {
+        int quotient = 52 / maxPlayers;
+        for (int i = 0; i < maxPlayers - (52 - quotient*maxPlayers); i++) {
+            players[i].sendInt(quotient);
+        }
+        for (int i = maxPlayers - (52 - quotient*maxPlayers); i < maxPlayers; i++) {
+            players[i].sendInt(quotient + 1);
+        }
+
+        int currentPlayer = 0;
+        while (fullDeck.size() > 0) {
+            players[currentPlayer].sendCard(fullDeck.get(fullDeck.size()-1));
+            fullDeck.remove(fullDeck.size()-1);
+        }
+    }
 
     public void initializeDeck() {
         String[] suitList = {"clubs", "spades", "diamonds", "hearts"};

@@ -7,6 +7,7 @@ public class Player {
     private ClientSideConnection csc;
     private int playerID;
     private int otherPlayer;
+    private PlayerDeck deck;
 
     public void connectToServer() {
         csc = new ClientSideConnection();
@@ -53,6 +54,18 @@ public class Player {
             }
         }
 
+        public void playCard() {
+            try {
+                Card card = deck.removeTop();
+                dataOut.writeInt(card.getNumber());
+                dataOut.writeUTF(card.getSuit());
+                dataOut.flush();
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from playCard() CSC");
+            }
+        }
+
         public void receiveMessage() {
             String text;
             try {
@@ -63,6 +76,28 @@ public class Player {
                 System.out.println("IOException from receiveMessage() CSC");
             }
         }
+
+        public void receiveCard() {
+            try {
+                int cardNum = dataIn.readInt();
+                String cardSuit = dataIn.readUTF();
+                deck.addCard(new Card(cardNum, cardSuit));
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from receiveCard() CSC");
+            }
+        }
+
+        public int receiveInt() {
+            try {
+                int num = dataIn.readInt();
+                return num;
+            }
+            catch (IOException ex) {
+                System.out.println("IOException from receiveInt() CSC");
+            }
+            return 0;
+        }
     }
 
     public static void main(String[] args) {
@@ -71,6 +106,11 @@ public class Player {
         System.out.println("playerID: " + p.playerID);
         p.startReceivingMessages();
         Scanner reader = new Scanner(System.in);
+        int numOfCards = p.csc.receiveInt();
+        for (int i = 0; i < numOfCards; i++) {
+            p.csc.receiveCard();
+        }
+        // initial player deck is now constructed
         while (true) {
             String text = reader.nextLine();
             if (text.equals("s")) {

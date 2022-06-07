@@ -16,4 +16,8 @@ public abstract class Deck {
     public boolean isEmpty() {
         return length == 0;
     }
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 }
