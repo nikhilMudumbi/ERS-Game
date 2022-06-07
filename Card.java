@@ -16,7 +16,6 @@ public class Card {
         else {
             this.color = "red";
         }
-
     }
     
     public String getColor() {
