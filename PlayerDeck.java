@@ -1,16 +1,16 @@
 public class PlayerDeck extends Deck {
-    
-    public Card removeTop() {
-        Card card = cards.get(cards.size()-1);
-        cards.remove(cards.size()-1);
-        length--;
-        return card;
+
+    public PlayerDeck() {
+        
     }
 
-    public void addDeck(CentralDeck deck) {
-        for (Card card : deck.cards) {
-            cards.add(0,card);
-            length++;
-        }
+    public void addCard(Card card) {
+        cards.add(0,card);
+        length++;
+    }
+
+    public Card burnTop() {
+        length--;
+        return cards.remove(length);
     }
 }

@@ -9,6 +9,9 @@ public class CentralDeck extends Deck {
     int thirdNum = 0;
     int bottomNum = 0;
 
+    public CentralDeck() {
+        
+    }
 
     public void addTop(Card card) {
         cards.add(card);
@@ -27,6 +30,10 @@ public class CentralDeck extends Deck {
         }
         topNum = topCard.getNumber();
         bottomNum = bottomCard.getNumber();
+    }
+
+    public Card getTop() {
+        return topCard;
     }
 
     public void burnBottom(Card card) {
@@ -91,10 +98,10 @@ public class CentralDeck extends Deck {
     }
 
     private boolean staircaseSlap() {
-        if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum && topNum <= 10) {
+        if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum) {
             return true;
         }
-        if (topNum == secondNum - 1 && secondNum == thirdNum - 1 && thirdNum <= 10) {
+        if (topNum == secondNum - 1 && secondNum == thirdNum - 1) {
             return true;
         }
         return false;
