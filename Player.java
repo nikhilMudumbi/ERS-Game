@@ -43,6 +43,8 @@ public class Player extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane.setLayout(new GridLayout(1,5));
         contentPane.add(message);
+        Font f = new Font("Arial", Font.BOLD, 25);
+        message.setFont(f);
         message.setText("Ready to play ERS?");
         message.setWrapStyleWord(true);
         message.setLineWrap(true);
@@ -92,8 +94,10 @@ public class Player extends JFrame {
 
         for (JButton button : pDeckButtons) {
             button.addActionListener(al);
+            button.setFont(new Font("Helvetica", Font.PLAIN, 25));
         }
         cDeckButton.addActionListener(al);
+        cDeckButton.setFont(new Font("Helvetica", Font.PLAIN, 25));
     }
 
     public void enablePlayerButton() {
@@ -125,11 +129,11 @@ public class Player extends JFrame {
     } */
 
     public void updatePlayerButton() {
-        pDeckButtons[playerID - 1].setText("Player " + (playerID) + " Deck \r\n " + (deck.length) + " cards");
+        pDeckButtons[playerID - 1].setText("Player " + (playerID) + " Deck \n " + (deck.length) + " cards");
     }
 
     public void updatePlayerButton(int i, int size) {
-        pDeckButtons[i].setText("Player " + (i+1) + " Deck \r\n " + (size) + " cards");
+        pDeckButtons[i].setText("Player " + (i+1) + " Deck \n " + (size) + " cards");
     }
 
     public void updateCentralButton(Card card) {
@@ -165,20 +169,30 @@ public class Player extends JFrame {
                 Thread.sleep(2000);
             }
             else if (slappable.equals("not slappable")) {
-                String text = "Players ";
-                int numSlappers = csc.receiveInt();
-                System.out.println("received " + numSlappers);
+                String text;
                 boolean slappedIncorrectly = false;
-                for (int i = 0; i < numSlappers; i++) {
+                int numSlappers = csc.receiveInt();
+                if (numSlappers == 1) {
                     int player = csc.receiveInt();
-                    System.out.println("received " + player);
-                    text += player + ", ";
+                    text = "Player " + player + " slapped incorrectly!";
                     if (player == playerID) {
                         slappedIncorrectly = true;
-                        System.out.println("here :0");
                     }
                 }
-                text += "all slapped incorrectly!";
+                else {
+                    text = "Players ";
+                    System.out.println("received " + numSlappers);
+                    for (int i = 0; i < numSlappers; i++) {
+                        int player = csc.receiveInt();
+                        System.out.println("received " + player);
+                        text += player + ", ";
+                        if (player == playerID) {
+                            slappedIncorrectly = true;
+                            System.out.println("here :0");
+                        }
+                    }
+                    text += "all slapped incorrectly!";
+                }
                 updateMessage(text);
                 System.out.println(text);
                 if (slappedIncorrectly) {
@@ -203,7 +217,7 @@ public class Player extends JFrame {
         public ClientSideConnection() {
             System.out.println("---Client---");
             try {
-                socket = new Socket("10.31.32.122", 51734);
+                socket = new Socket("10.62.1.197", 51734);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
                 playerID = dataIn.readInt();
@@ -343,7 +357,7 @@ public class Player extends JFrame {
     }
 
     public static void main(String[] args) {
-        Player p = new Player(700, 350, 2);
+        Player p = new Player(700, 350, 1);
         p.connectToServer();
         p.setUpGUI();
         p.setUpButtons();

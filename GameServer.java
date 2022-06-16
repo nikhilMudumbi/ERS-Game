@@ -7,7 +7,7 @@ public class GameServer {
 
     private ServerSocket ss;
     private int numPlayers = 0;
-    private int maxPlayers = 2;
+    private int maxPlayers = 1;
     private ServerSideConnection[] players;
     private ArrayList<SlapAction> slaps = new ArrayList<>();
     private ArrayList<Card> fullDeck = new ArrayList<>();

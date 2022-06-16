@@ -78,6 +78,9 @@ public class CentralDeck extends Deck {
     }
 
     private boolean marriageSlap() {
+        if (cards.size() < 2) {
+            return false;
+        }
         if (topNum == 13 && secondNum == 12) {
             return true;
         }
@@ -88,6 +91,9 @@ public class CentralDeck extends Deck {
     }
 
     private boolean divorceSlap() {
+        if (cards.size() < 3) {
+            return false;
+        }
         if (topNum == 13 && thirdNum == 12) {
             return true;
         }
@@ -98,6 +104,9 @@ public class CentralDeck extends Deck {
     }
 
     private boolean staircaseSlap() {
+        if (cards.size() < 3) {
+            return false;
+        }
         if  (topNum == 1 + secondNum && secondNum == 1 + thirdNum) {
             return true;
         }
