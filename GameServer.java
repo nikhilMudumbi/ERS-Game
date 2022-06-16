@@ -270,6 +270,8 @@ public class GameServer {
             tempWinner = slapper-1;
             sendIntEveryone(slapper);
             players[slapper-1].sendInt(centralDeck.length);
+            facesLeft = 0;
+            newFace = false;
             while (!centralDeck.isEmpty()) {
                 players[slapper-1].sendCard(centralDeck.removeTop());
             }

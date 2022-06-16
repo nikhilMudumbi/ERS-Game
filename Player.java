@@ -217,7 +217,7 @@ public class Player extends JFrame {
         public ClientSideConnection() {
             System.out.println("---Client---");
             try {
-                socket = new Socket("10.62.1.197", 51734);
+                socket = new Socket("10.31.32.122", 51734);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
                 playerID = dataIn.readInt();
@@ -428,7 +428,7 @@ public class Player extends JFrame {
                 p.updateMessage(p.csc.receiveString());
                 break;
             }
-        }
+        }   
     }
 
 }
