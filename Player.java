@@ -357,7 +357,7 @@ public class Player extends JFrame {
     }
 
     public static void main(String[] args) {
-        Player p = new Player(700, 350, 1);
+        Player p = new Player(700, 350, 2);
         p.connectToServer();
         p.setUpGUI();
         p.setUpButtons();
