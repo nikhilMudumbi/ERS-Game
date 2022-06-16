@@ -429,19 +429,6 @@ public class Player extends JFrame {
                 break;
             }
         }
-        /*p.startReceivingMessages();
-        Scanner reader = new Scanner(System.in);
-        int numOfCards = p.csc.receiveInt();
-        for (int i = 0; i < numOfCards; i++) {
-            p.csc.receiveCard();
-        }
-        // initial player deck is now constructed
-        while (true) {
-            String text = reader.nextLine();
-            if (text.equals("s")) {
-                p.csc.sendCommand(1);
-            }
-        }*/
     }
 
 }
